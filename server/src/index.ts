@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { booksRoutes } from "./routes/books.router";
+import { BadRequest } from "./common/errors";
 
 const app = new Hono();
 
@@ -16,6 +17,13 @@ app.notFound((c) => {
     },
     404
   );
+});
+
+app.onError((err, c) => {
+  if (err instanceof Error) {
+    return c.json({ error: err.message }, err instanceof BadRequest ? 400 : 500);
+  }
+  return c.json({ error: "Unknown error occurred" }, 500);
 });
 
 export default {
