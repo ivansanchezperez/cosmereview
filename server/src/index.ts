@@ -8,8 +8,6 @@ app.get("/", (c) => {
   return c.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-app.route("/books", booksRoutes);
-
 app.notFound((c) => {
   return c.json(
     {
@@ -25,6 +23,9 @@ app.onError((err, c) => {
   }
   return c.json({ error: "Unknown error occurred" }, 500);
 });
+
+// Registering router
+app.route("/books", booksRoutes);
 
 export default {
   port: 3000,
