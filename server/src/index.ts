@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { booksRoutes } from "./routes/books.router";
-import { reviewsRoutes } from "./routes/reviews.router";
 
 const app = new Hono();
 
@@ -9,7 +8,6 @@ app.get("/", (c) => {
 });
 
 app.route("/books", booksRoutes);
-app.route("/reviews", reviewsRoutes);
 
 app.notFound((c) => {
   return c.json(
