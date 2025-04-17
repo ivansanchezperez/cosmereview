@@ -1,16 +1,16 @@
 import { Context } from "hono";
 import * as bookRepository from "../repositories/book.repository";
 
-export const getBooksHandler = async (c: Context) => {
+export async function getBooksHandler(c: Context) {
   try {
     const allBooks = await bookRepository.getAllBooks();
     return c.json(allBooks);
   } catch (error) {
     return c.json({ error: "Internal Server Error" }, 500);
   }
-};
+}
 
-export const createBookHandler = async (c: Context) => {
+export async function createBookHandler(c: Context) {
   try {
     const { title, author, publishedYear } = await c.req.json();
 
@@ -28,4 +28,4 @@ export const createBookHandler = async (c: Context) => {
   } catch (error) {
     return c.json({ error: "Internal Server Error" }, 500);
   }
-};
+}
