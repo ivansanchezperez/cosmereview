@@ -8,13 +8,13 @@ export class EntityNotFound extends Error {
   }
 }
 
-export class ServiceUnavailable extends Error {
+export class Unauthorized extends Error {
   statusCode: number;
 
-  constructor(service: string) {
-    super(`${service} is currently unavailable`);
-    this.statusCode = 503;
-    this.name = "ServiceUnavailable";
+  constructor(message: string) {
+    super(message);
+    this.statusCode = 401;
+    this.name = "Unauthorized";
   }
 }
 
@@ -25,15 +25,5 @@ export class BadRequest extends Error {
     super(message);
     this.statusCode = 400;
     this.name = "BadRequest";
-  }
-}
-
-export class InternalServerError extends Error {
-  statusCode: number;
-
-  constructor(message: string) {
-    super(message);
-    this.statusCode = 500;
-    this.name = "InternalServerError";
   }
 }
