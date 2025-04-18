@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import { getBooksHandler, createBookHandler, getBookByIdHandler } from "../handlers/book.handler";
+import { getBooksController, createBookController, getBookByIdController } from "../controllers/book.controller";
 
 export const booksRoutes = new Hono();
 
-booksRoutes.get("/", getBooksHandler);
-booksRoutes.post("/", createBookHandler);
-booksRoutes.get("/:id", getBookByIdHandler);
+booksRoutes.get("/", getBooksController);
+booksRoutes.post("/", createBookController);
+booksRoutes.get("/:id", getBookByIdController);

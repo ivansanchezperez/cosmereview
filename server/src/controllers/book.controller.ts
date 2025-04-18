@@ -1,17 +1,17 @@
 import { Context } from "hono";
-import * as bookRepository from "../repositories/book.repository";
+import * as bookService from "../services/book.service";
 import { EntityNotFound, BadRequest } from "../common/errors";
 
-export async function getBooksHandler(c: Context) {
+export async function getBooksController(c: Context) {
   try {
-    const allBooks = await bookRepository.getAllBooks();
+    const allBooks = await bookService.getAllBooks();
     return c.json(allBooks);
   } catch (error) {
     return c.json({ error: "Internal Server Error" }, 500);
   }
 }
 
-export async function getBookByIdHandler(c: Context) {
+export async function getBookByIdController(c: Context) {
   try {
     const bookId = c.req.param("id");
 
@@ -19,7 +19,7 @@ export async function getBookByIdHandler(c: Context) {
       throw new BadRequest("Book ID is required");
     }
 
-    const book = await bookRepository.getBookById(bookId);
+    const book = await bookService.getBookById(bookId);
     return c.json(book);
   } catch (error) {
     if (error instanceof EntityNotFound) {
@@ -29,7 +29,7 @@ export async function getBookByIdHandler(c: Context) {
   }
 }
 
-export async function createBookHandler(c: Context) {
+export async function createBookController(c: Context) {
   try {
     const { title, author, publishedYear } = await c.req.json();
 
@@ -37,7 +37,7 @@ export async function createBookHandler(c: Context) {
       throw new BadRequest("Missing required fields");
     }
 
-    const [insertedBook] = await bookRepository.createBook({
+    const [insertedBook] = await bookService.createBook({
       title,
       author,
       publishedYear,
