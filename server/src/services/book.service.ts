@@ -1,4 +1,4 @@
-import { CreateBook, FetchBook, PatchBook } from "../models";
+import { CreateBook, FetchBook, PatchBook } from "../models/book";
 import * as bookRepository from "../repositories/book.repository";
 
 export async function getAllBooks() {
@@ -19,6 +19,7 @@ export async function patchBookById(id: string, updates: PatchBook) {
   const patchedBook = {
     ...book,
     ...updates,
+    updatedAt: new Date(),
   };
 
   return bookRepository.patchBookById(id, patchedBook);

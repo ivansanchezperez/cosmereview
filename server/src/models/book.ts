@@ -7,6 +7,7 @@ export const books = pgTable("books", {
   author: text("author").notNull(),
   publishedYear: integer("published_year"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export type CreateBook = InferInsertModel<typeof books>;

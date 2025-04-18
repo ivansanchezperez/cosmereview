@@ -10,6 +10,7 @@ export async function getBooksController(c: Context) {
     logger.info("Fetched all books successfully");
     return c.json(allBooks);
   } catch (error) {
+    logger.error("Error creating book", error);
     return c.json({ error: "Internal Server Error" }, 500);
   }
 }
@@ -27,6 +28,7 @@ export async function getBookByIdController(c: Context) {
     logger.info("Fetched book successfully");
     return c.json(book);
   } catch (error) {
+    logger.error("Error creating book", error);
     if (error instanceof EntityNotFound) {
       return c.json({ error: error.message }, 404);
     }
@@ -52,6 +54,7 @@ export async function createBookController(c: Context) {
     logger.info("Created book successfully");
     return c.json(book, 201);
   } catch (error) {
+    logger.error("Error creating book", error);
     if (error instanceof BadRequest) {
       return c.json({ error: error.message }, 400);
     }
@@ -70,6 +73,7 @@ export async function patchBookByIdController(c: Context) {
     logger.info("Patched book successfully");
     return c.json(book, 200);
   } catch (error) {
+    logger.error("Error creating book", error);
     if (error instanceof EntityNotFound) {
       return c.json({ error: error.message }, 404);
     }
@@ -91,6 +95,7 @@ export async function deleteBookByIdController(c: Context) {
     logger.info("Deleted book successfully");
     return c.json({ message: "Book deleted successfully" }, 200);
   } catch (error) {
+    logger.error("Error creating book", error);
     if (error instanceof EntityNotFound) {
       return c.json({ error: error.message }, 404);
     }
