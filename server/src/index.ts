@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { logger } from "hono/logger";
 import { bookRoutes } from "./routes/books.router";
 import { BadRequest } from "./common/errors";
 
@@ -23,6 +24,9 @@ app.onError((err, c) => {
   }
   return c.json({ error: "Unknown error occurred" }, 500);
 });
+
+// Middlewares
+app.use(logger());
 
 // Registering router
 app.route("/books", bookRoutes);
