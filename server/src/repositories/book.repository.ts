@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db";
-import { books } from "../models";
+import { books, CreateBook, PatchBook } from "../models";
 import { EntityNotFound } from "../common/errors";
 
 export async function getAllBooks() {
@@ -18,9 +18,33 @@ export async function getBookById(id: string) {
     throw new EntityNotFound(`Book with id ${id} not found`);
   }
 
-  return book;
+  return book[0];
 }
 
-export async function createBook(book: { title: string; author: string; publishedYear: number }) {
-  return db.insert(books).values(book).returning();
+export async function createBook(book: CreateBook) {
+  const bookToCreate = {
+    ...book,
+    createdAt: new Date(),
+  };
+  const [insertedBook] = await db.insert(books).values(bookToCreate).returning();
+  return {
+    ...insertedBook,
+    createdAt: insertedBook.createdAt ? new Date(insertedBook.createdAt) : null,
+  };
+}
+
+export async function patchBookById(id: string, updates: PatchBook) {
+  await db
+    .update(books)
+    .set(updates)
+    .where(eq(books.id, Number(id)))
+    .returning()
+    .execute();
+}
+
+export async function deleteBookById(id: string) {
+  return db
+    .delete(books)
+    .where(eq(books.id, Number(id)))
+    .execute();
 }

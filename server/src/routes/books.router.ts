@@ -1,8 +1,16 @@
 import { Hono } from "hono";
-import { getBooksController, createBookController, getBookByIdController } from "../controllers/book.controller";
+import {
+  getBooksController,
+  createBookController,
+  getBookByIdController,
+  patchBookByIdController,
+  deleteBookByIdController,
+} from "../controllers/book.controller";
 
-export const booksRoutes = new Hono();
+export const bookRoutes = new Hono();
 
-booksRoutes.get("/", getBooksController);
-booksRoutes.post("/", createBookController);
-booksRoutes.get("/:id", getBookByIdController);
+bookRoutes.get("/", getBooksController);
+bookRoutes.post("/", createBookController);
+bookRoutes.get("/:id", getBookByIdController);
+bookRoutes.patch("/:id", patchBookByIdController);
+bookRoutes.delete("/:id", deleteBookByIdController);

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { booksRoutes } from "./routes/books.router";
+import { bookRoutes } from "./routes/books.router";
 import { BadRequest } from "./common/errors";
 
 const app = new Hono();
@@ -25,7 +25,7 @@ app.onError((err, c) => {
 });
 
 // Registering router
-app.route("/books", booksRoutes);
+app.route("/books", bookRoutes);
 
 export default {
   port: 3000,

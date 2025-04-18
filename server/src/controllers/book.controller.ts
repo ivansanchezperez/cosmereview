@@ -37,16 +37,51 @@ export async function createBookController(c: Context) {
       throw new BadRequest("Missing required fields");
     }
 
-    const [insertedBook] = await bookService.createBook({
+    const book = await bookService.createBook({
       title,
       author,
       publishedYear,
     });
 
-    return c.json(insertedBook);
+    return c.json(book);
   } catch (error) {
     if (error instanceof BadRequest) {
       return c.json({ error: error.message }, 400);
+    }
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+}
+
+export async function patchBookByIdController(c: Context) {
+  try {
+    const bookId = c.req.param("id");
+    const body = await c.req.json();
+
+    await bookService.patchBookById(bookId, body);
+    const book = await bookService.getBookById(bookId);
+    return c.json(book, 200);
+  } catch (error) {
+    if (error instanceof EntityNotFound) {
+      return c.json({ error: error.message }, 404);
+    }
+    console.log(error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+}
+
+export async function deleteBookByIdController(c: Context) {
+  try {
+    const bookId = c.req.param("id");
+
+    if (!bookId) {
+      throw new BadRequest("Book ID is required");
+    }
+
+    await bookService.deleteBookById(bookId);
+    return c.json({ message: "Book deleted successfully" }, 200);
+  } catch (error) {
+    if (error instanceof EntityNotFound) {
+      return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
   }
