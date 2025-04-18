@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db";
-import { books, CreateBook, PatchBook } from "../models/book";
+import { books, CreateBook, PatchBook } from "../models";
 import { EntityNotFound } from "../common/errors";
 
 export async function getAllBooks() {

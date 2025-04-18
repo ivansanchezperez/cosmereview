@@ -1,4 +1,4 @@
-import { CreateBook, FetchBook, PatchBook } from "../models/book";
+import { CreateBook, FetchBook, PatchBook } from "../models";
 import * as bookRepository from "../repositories/book.repository";
 
 export async function getAllBooks() {
