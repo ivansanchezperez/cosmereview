@@ -1,7 +1,7 @@
 import { Context } from "hono";
-import * as bookService from "../services/book.service";
+import { logger } from "../common/logger";
 import { EntityNotFound, BadRequest } from "../common/errors";
-import logger from "../common/logger";
+import * as bookService from "../services/book.service";
 
 export async function getBooksController(c: Context) {
   try {

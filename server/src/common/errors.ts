@@ -2,7 +2,7 @@ export class EntityNotFound extends Error {
   statusCode: number;
 
   constructor(entity: string) {
-    super(`${entity} not found`);
+    super(`${entity}`);
     this.statusCode = 404;
     this.name = "EntityNotFound";
   }

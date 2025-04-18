@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
-import { bookRoutes } from "./routes/books.router";
 import { BadRequest } from "./common/errors";
+import { reviewRoutes } from "./routes/review.router";
+import { bookRoutes } from "./routes/book.router";
 
 const app = new Hono();
 
@@ -12,7 +13,7 @@ app.get("/", (c) => {
 app.notFound((c) => {
   return c.json(
     {
-      error: "Error page, Not Found",
+      error: "Error page not Found",
     },
     404
   );
@@ -30,6 +31,7 @@ app.use(logger());
 
 // Registering router
 app.route("/books", bookRoutes);
+app.route("/reviews", reviewRoutes);
 
 export default {
   port: 3000,

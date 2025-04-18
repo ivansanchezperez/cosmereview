@@ -1,32 +1,21 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db";
 import { books, CreateBook, PatchBook } from "../models";
-import { EntityNotFound } from "../common/errors";
 
 export async function getAllBooks() {
   return db.select().from(books);
 }
 
 export async function getBookById(id: string) {
-  const book = await db
+  return await db
     .select()
     .from(books)
     .where(eq(books.id, Number(id)))
     .execute();
-
-  if (!book || book.length === 0) {
-    throw new EntityNotFound(`Book with id ${id} not found`);
-  }
-
-  return book[0];
 }
 
 export async function createBook(book: CreateBook) {
-  const bookToCreate = {
-    ...book,
-    createdAt: new Date(),
-  };
-  const [insertedBook] = await db.insert(books).values(bookToCreate).returning();
+  const [insertedBook] = await db.insert(books).values(book).returning();
   return {
     ...insertedBook,
     createdAt: insertedBook.createdAt ? new Date(insertedBook.createdAt) : null,
