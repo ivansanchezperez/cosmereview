@@ -14,6 +14,14 @@ export async function getReviewById(id: string) {
     .execute();
 }
 
+export async function getReviewsByBookId(bookId: string) {
+  return await db
+    .select()
+    .from(reviews)
+    .where(eq(reviews.bookId, Number(bookId)))
+    .execute();
+}
+
 export async function createReview(review: CreateReview) {
   const [insertedReview] = await db.insert(reviews).values(review).returning();
   return {

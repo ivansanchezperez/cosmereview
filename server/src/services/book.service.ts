@@ -1,6 +1,7 @@
 import { EntityNotFound } from "../common/errors";
 import { CreateBook, FetchBook, PatchBook } from "../models";
 import * as bookRepository from "../repositories/book.repository";
+import * as reviewRepository from "../repositories/review.repository";
 
 export async function getAllBooks() {
   return bookRepository.getAllBooks();
@@ -12,7 +13,12 @@ export async function getBookById(id: string): Promise<FetchBook> {
     throw new EntityNotFound(`Book with id ${id} not found`);
   }
 
-  return book[0];
+  const reviews = await reviewRepository.getReviewsByBookId(id);
+  const bookWithReviews = {
+    ...book[0],
+    reviews,
+  };
+  return bookWithReviews;
 }
 
 export async function createBook(book: CreateBook) {
