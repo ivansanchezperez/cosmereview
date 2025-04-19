@@ -3,6 +3,7 @@ import { logger } from "hono/logger";
 import { BadRequest } from "./common/errors";
 import { reviewRoutes } from "./routes/review.router";
 import { bookRoutes } from "./routes/book.router";
+import { reviewCommentRoutes } from "./routes/review-comment.router";
 
 const app = new Hono();
 
@@ -29,9 +30,10 @@ app.onError((err, c) => {
 // Middlewares
 app.use(logger());
 
-// Registering router
+// Registering routes
 app.route("/books", bookRoutes);
 app.route("/reviews", reviewRoutes);
+app.route("/review-comments", reviewCommentRoutes);
 
 export default {
   port: 3000,

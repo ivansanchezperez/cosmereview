@@ -16,6 +16,25 @@ export async function getReviewController(c: Context) {
   }
 }
 
+export async function getReviewByIdController(c: Context) {
+  try {
+    const reviewId = c.req.param("id");
+    logger.info(`Fetching review by id ${reviewId}`);
+    if (!reviewId) {
+      throw new EntityNotFound("Review ID is required");
+    }
+    const review = await reviewService.getReviewById(reviewId);
+    logger.info("Fetched review successfully");
+    return c.json(review, 200);
+  } catch (error) {
+    logger.error("Error fetching review", error);
+    if (error instanceof EntityNotFound) {
+      return c.json({ error: error.message }, 404);
+    }
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+}
+
 export async function createReviewController(c: Context) {
   try {
     const { bookId, username, content, rating } = await c.req.json();
@@ -60,7 +79,7 @@ export async function patchReviewByIdController(c: Context) {
       return c.json({ error: error.errors }, 400);
     }
 
-    await reviewService.patchReviewById(reviewId, body);
+    await reviewService.patchReviewById(reviewId, data);
     const review = await reviewService.getReviewById(reviewId);
     logger.info("Patched review successfully");
     return c.json(review, 200);

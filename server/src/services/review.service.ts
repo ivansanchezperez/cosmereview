@@ -1,10 +1,27 @@
 import { EntityNotFound } from "../common/errors";
-import { CreateReview, FetchReview } from "../models";
-import * as reviewRepository from "../repositories/review.repository";
+import { CreateReview, FetchReview, PatchReview } from "../models";
 import { getBookById } from "./book.service";
+import { getReviewCommentsByReviewId } from "./review-comment.service";
+import * as reviewRepository from "../repositories/review.repository";
 
 export async function getAllReviews() {
   return reviewRepository.getAllReviews();
+}
+
+export async function getReviewsByBookId(bookId: string) {
+  const reviews = await reviewRepository.getReviewsByBookId(bookId);
+
+  const reviewsWithComments = await Promise.all(
+    reviews.map(async (review) => {
+      const reviewComments = await getReviewCommentsByReviewId(review.id.toString());
+      return {
+        ...review,
+        reviewComments: reviewComments || [],
+      };
+    })
+  );
+
+  return reviewsWithComments;
 }
 
 export async function getReviewById(id: string): Promise<FetchReview> {
@@ -13,7 +30,12 @@ export async function getReviewById(id: string): Promise<FetchReview> {
     throw new EntityNotFound(`Review with id ${id} not found`);
   }
 
-  return review[0];
+  const reivewComments = await getReviewCommentsByReviewId(id);
+  const reviewWithComments = {
+    ...review[0],
+    reviewComments: reivewComments,
+  };
+  return reviewWithComments;
 }
 
 export async function createReview(review: CreateReview) {
@@ -25,7 +47,7 @@ export async function createReview(review: CreateReview) {
   return reviewRepository.createReview(reviewToCreate);
 }
 
-export async function patchReviewById(id: string, updates: CreateReview) {
+export async function patchReviewById(id: string, updates: PatchReview) {
   const reviewToUpdate = await getReviewById(id);
   const patchedReview = {
     ...reviewToUpdate,

@@ -15,6 +15,4 @@ export const reviewComments = pgTable("review_comments", {
 
 export type CreateReviewComment = InferInsertModel<typeof reviewComments>;
 export type FetchReviewComment = InferSelectModel<typeof reviewComments>;
-export type PatchReviewComment = Partial<Omit<InferInsertModel<typeof reviewComments>, "id" | "createdAt" | "updatedAt">> & {
-  id: number;
-};
+export type PatchReviewComment = Partial<Omit<InferInsertModel<typeof reviewComments>, "id" | "createdAt" | "updatedAt">>;

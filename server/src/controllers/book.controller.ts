@@ -8,7 +8,7 @@ export async function getBooksController(c: Context) {
     logger.info("Fetching all books");
     const allBooks = await bookService.getAllBooks();
     logger.info("Fetched all books successfully");
-    return c.json(allBooks);
+    return c.json(allBooks, 200);
   } catch (error) {
     logger.error("Error creating book", error);
     return c.json({ error: "Internal Server Error" }, 500);
@@ -26,7 +26,7 @@ export async function getBookByIdController(c: Context) {
 
     const book = await bookService.getBookById(bookId);
     logger.info("Fetched book successfully");
-    return c.json(book);
+    return c.json(book, 200);
   } catch (error) {
     logger.error("Error creating book", error);
     if (error instanceof EntityNotFound) {
