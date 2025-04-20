@@ -9,19 +9,7 @@ export async function getAllReviews() {
 }
 
 export async function getReviewsByBookId(bookId: string) {
-  const reviews = await reviewRepository.getReviewsByBookId(bookId);
-
-  const reviewsWithComments = await Promise.all(
-    reviews.map(async (review) => {
-      const reviewComments = await getReviewCommentsByReviewId(review.id.toString());
-      return {
-        ...review,
-        reviewComments: reviewComments || [],
-      };
-    })
-  );
-
-  return reviewsWithComments;
+  return reviewRepository.getReviewsWithCommentsById(bookId);
 }
 
 export async function getReviewById(id: string): Promise<FetchReview> {

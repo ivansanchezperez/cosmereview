@@ -2,14 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../config/db";
 import { reviewComments, CreateReviewComment, PatchReviewComment } from "../models/ReviewComment";
 
-export async function getReviewCommentsByReviewId(reviewId: string) {
-  return db
-    .select()
-    .from(reviewComments)
-    .where(eq(reviewComments.reviewId, Number(reviewId)))
-    .execute();
-}
-
+// CRUD operations for review comments
 export async function getReviewCommentById(id: string) {
   return db
     .select()
@@ -39,5 +32,14 @@ export async function deleteReviewCommentById(id: string) {
   return db
     .delete(reviewComments)
     .where(eq(reviewComments.id, Number(id)))
+    .execute();
+}
+
+// Fetch all review comments for a specific review
+export async function getReviewCommentsByReviewId(reviewId: string) {
+  return db
+    .select()
+    .from(reviewComments)
+    .where(eq(reviewComments.reviewId, Number(reviewId)))
     .execute();
 }

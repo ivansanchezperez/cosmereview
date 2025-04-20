@@ -1,5 +1,7 @@
 import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
 import { InferSelectModel, InferInsertModel } from "drizzle-orm";
+import { FetchReview } from "./Review";
+import { FetchReviewComment } from "./ReviewComment";
 
 export const books = pgTable("books", {
   id: serial("id").primaryKey(),
@@ -14,4 +16,8 @@ export type CreateBook = InferInsertModel<typeof books>;
 export type FetchBook = InferSelectModel<typeof books>;
 export type PatchBook = Partial<Omit<InferInsertModel<typeof books>, "id" | "createdAt">> & {
   id: number;
+};
+
+export type BookWithReviewsAndComments = FetchBook & {
+  reviews: (FetchReview & { reviewComments: FetchReviewComment[] })[];
 };

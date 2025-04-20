@@ -1,2 +1,3 @@
-export * from "./book";
-export * from "./review";
+export * from "./Book";
+export * from "./Review";
+export * from "./ReviewComment";

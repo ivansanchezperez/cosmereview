@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db";
-import { books, CreateBook, PatchBook } from "../models";
+import { books, reviews, reviewComments, CreateBook, PatchBook, BookWithReviewsAndComments, FetchReview, FetchReviewComment } from "../models";
 
+// CRUD operations for books
 export async function getAllBooks() {
   return db.select().from(books);
 }
@@ -36,4 +37,79 @@ export async function deleteBookById(id: string) {
     .delete(books)
     .where(eq(books.id, Number(id)))
     .execute();
+}
+
+// Fetch a book with its reviews and comments
+export async function getBookWithReviewsAndCommentsById(bookId: string): Promise<BookWithReviewsAndComments> {
+  const result = await db
+    .select({
+      bookId: books.id,
+      bookTitle: books.title,
+      bookAuthor: books.author,
+      bookPublishedYear: books.publishedYear,
+      bookCreatedAt: books.createdAt,
+      bookUpdatedAt: books.updatedAt,
+      reviewId: reviews.id,
+      reviewContent: reviews.content,
+      reviewRating: reviews.rating,
+      reviewCreatedAt: reviews.createdAt,
+      reviewUpdatedAt: reviews.updatedAt,
+      reviewUsername: reviews.username,
+      reviewBookId: reviews.bookId,
+      reviewCommentId: reviewComments.id,
+      reviewCommentContent: reviewComments.content,
+      reviewCommentUsername: reviewComments.username,
+      reviewCommentCreatedAt: reviewComments.createdAt,
+      reviewCommentUpdatedAt: reviewComments.updatedAt,
+      reviewCommentReviewId: reviewComments.reviewId,
+    })
+    .from(books)
+    .leftJoin(reviews, eq(books.id, reviews.bookId))
+    .leftJoin(reviewComments, eq(reviews.id, reviewComments.reviewId))
+    .where(eq(books.id, Number(bookId)));
+
+  // Transform the flat result into a hierarchical structure
+  const book: BookWithReviewsAndComments = {
+    id: result[0]?.bookId,
+    title: result[0]?.bookTitle,
+    author: result[0]?.bookAuthor,
+    publishedYear: result[0]?.bookPublishedYear,
+    createdAt: result[0]?.bookCreatedAt,
+    updatedAt: result[0]?.bookUpdatedAt,
+    reviews: [],
+  };
+
+  const reviewMap = new Map<number, FetchReview & { reviewComments: FetchReviewComment[] }>();
+
+  result.forEach((row) => {
+    if (!row.reviewId) return;
+
+    if (!reviewMap.has(row.reviewId)) {
+      const newReview: FetchReview & { reviewComments: FetchReviewComment[] } = {
+        id: row.reviewId,
+        content: row.reviewContent!,
+        rating: row.reviewRating!,
+        createdAt: row.reviewCreatedAt!,
+        updatedAt: row.reviewUpdatedAt!,
+        username: row.reviewUsername!,
+        bookId: row.reviewBookId!,
+        reviewComments: [],
+      };
+      reviewMap.set(row.reviewId, newReview);
+      book.reviews.push(newReview);
+    }
+
+    if (row.reviewCommentId) {
+      reviewMap.get(row.reviewId)!.reviewComments.push({
+        id: row.reviewCommentId,
+        content: row.reviewCommentContent!,
+        username: row.reviewCommentUsername!,
+        createdAt: row.reviewCommentCreatedAt!,
+        updatedAt: row.reviewCommentUpdatedAt!,
+        reviewId: row.reviewCommentReviewId!,
+      });
+    }
+  });
+
+  return book;
 }
