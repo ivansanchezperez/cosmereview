@@ -8,8 +8,8 @@ export async function getAllReviews() {
   return reviewRepository.getAllReviews();
 }
 
-export async function getReviewsByBookId(bookId: string) {
-  return reviewRepository.getReviewsWithCommentsById(bookId);
+export async function getReviewAndCommentsById(reviewId: string) {
+  return reviewRepository.getReviewsWithCommentsById(reviewId);
 }
 
 export async function getReviewById(id: string): Promise<FetchReview> {

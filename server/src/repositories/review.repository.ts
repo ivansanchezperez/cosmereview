@@ -48,7 +48,7 @@ export async function deleteReviewById(id: string) {
 }
 
 // Fetch all reviews with their comments
-export async function getReviewsWithCommentsById(bookId: string): Promise<ReviewWithComments[]> {
+export async function getReviewsWithCommentsById(reviewId: string): Promise<ReviewWithComments[]> {
   const result = await db
     .select({
       reviewId: reviews.id,
@@ -66,7 +66,7 @@ export async function getReviewsWithCommentsById(bookId: string): Promise<Review
     })
     .from(reviews)
     .leftJoin(reviewComments, eq(reviews.id, reviewComments.reviewId))
-    .where(eq(reviews.bookId, Number(bookId)))
+    .where(eq(reviews.id, Number(reviewId)))
     .execute();
 
   const reviewMap = new Map<number, ReviewWithComments>();

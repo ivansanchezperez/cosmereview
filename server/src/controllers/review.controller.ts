@@ -23,7 +23,7 @@ export async function getReviewByIdController(c: Context) {
     if (!reviewId) {
       throw new EntityNotFound("Review ID is required");
     }
-    const review = await reviewService.getReviewById(reviewId);
+    const review = await reviewService.getReviewAndCommentsById(reviewId);
     logger.info("Fetched review successfully");
     return c.json(review, 200);
   } catch (error) {
