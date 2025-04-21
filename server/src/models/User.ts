@@ -4,7 +4,7 @@ import { InferSelectModel, InferInsertModel } from "drizzle-orm";
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull(),
-  email: text("email").notNull().unique(), // Ensure email is unique
+  email: text("email").notNull().unique(),
   password: text("password").notNull(),
   profilePicture: text("profile_picture"),
   bio: text("bio"),
@@ -12,8 +12,8 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export type CreateBook = InferInsertModel<typeof users>;
-export type FetchBook = InferSelectModel<typeof users>;
-export type PatchBook = Partial<Omit<InferInsertModel<typeof users>, "id" | "createdAt">> & {
+export type CreateUser = InferInsertModel<typeof users>;
+export type FetchUser = InferSelectModel<typeof users>;
+export type PatchUser = Partial<Omit<InferInsertModel<typeof users>, "id" | "createdAt">> & {
   id: number;
 };
