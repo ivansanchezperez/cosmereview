@@ -1,8 +1,10 @@
 ---
+import Header from '../components/header/Header';
 import Welcome from '../components/welcome/Welcome.tsx';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
+	<Header client:only="react"/>
 	<Welcome client:only="react"/>
 </Layout>

@@ -5,7 +5,7 @@ import elantris from "../../assets/elantris.png";
 import homepage from "../../assets/homepage.png";
 import styles from "./welcome.module.css";
 
-export default function CosmerePage() {
+export default function Welcome() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0
@@ -85,10 +85,6 @@ export default function CosmerePage() {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <div className={styles.sidebarInner}>
-          <div className={styles.sidebarHeader}>
-            <h2 className={styles.sidebarTitle}>Libreria</h2>
-          </div>
-
           <nav className={styles.nav}>
             <ul className={styles.navList}>
               <li className={styles.navItem}>Home</li>
@@ -119,7 +115,6 @@ export default function CosmerePage() {
           >
             {isSidebarOpen ? "✕" : "☰"}
           </button>
-          <h3 className={styles.headerTitle}>Libreria</h3>
         </header>
 
         <div
@@ -128,14 +123,6 @@ export default function CosmerePage() {
         >
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>Cosmereview</h1>
-            <div className={styles.searchContainer}>
-              <input
-                type="text"
-                placeholder="Buscar"
-                className={styles.searchInput}
-              />
-              <button className={styles.searchButton}>Buscar</button>
-            </div>
           </div>
         </div>
 
