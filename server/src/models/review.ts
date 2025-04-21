@@ -8,6 +8,9 @@ export const reviews = pgTable("reviews", {
   bookId: integer("book_id")
     .references(() => books.id, { onDelete: "cascade" })
     .notNull(),
+  userId: integer("user_id")
+    .references(() => books.id)
+    .notNull(),
   username: text("username").notNull(),
   content: text("content").notNull(),
   rating: integer("rating").notNull(),

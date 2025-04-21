@@ -1,11 +1,15 @@
 import { pgTable, serial, integer, text, timestamp } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { reviews } from "./review";
+import { reviews } from "./Review";
+import { books } from "./Book";
 
 export const reviewComments = pgTable("review_comments", {
   id: serial("id").primaryKey(),
   reviewId: integer("review_id")
     .references(() => reviews.id, { onDelete: "cascade" })
+    .notNull(),
+  userId: integer("user_id")
+    .references(() => books.id)
     .notNull(),
   username: text("username").notNull(),
   content: text("content").notNull(),
