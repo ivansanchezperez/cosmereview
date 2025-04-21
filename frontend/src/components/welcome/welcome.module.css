@@ -1,0 +1,216 @@
+.nav-item:hover {
+  background-color: #34495e;
+}
+
+.open .nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.headerToggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-right: 1rem;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.sidebar {
+  position: fixed;
+  height: 100%;
+  background-color: #2c3e50;
+  color: white;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  z-index: 10;
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.sidebarInner {
+  padding: 1rem;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.sidebarTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nav {
+  transition: opacity 0.2s;
+}
+
+.navList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.main {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+.hero {
+  width: 100%;
+  height: 70vh;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.heroTitle {
+  font-family: "Noto Serif";
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.searchContainer {
+  display: flex;
+  width: 25%;
+  max-width: 500px;
+  min-width: 250px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.searchInput {
+  padding: 1rem;
+  border: none;
+  font-size: 16px;
+  color: white;
+  background-color: transparent;
+  flex: 1;
+  outline: none;
+}
+
+.searchButton {
+  margin: 0.5rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.reviewsSection {
+  padding: 1rem 0;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.booksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.bookItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bookCover {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 0.5rem;
+}
+
+.bookTitle {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .sidebar:not(.open) .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 0;
+  }
+
+  .sidebar:not(.open) .nav-item::before {
+    content: "•";
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0 !important;
+  }
+
+  .sidebar.open {
+    width: 75% !important;
+    transform: translateX(0) !important;
+  }
+}

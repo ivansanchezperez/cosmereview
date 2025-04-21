@@ -1,0 +1,19 @@
+:root {
+  /* Base */
+  --color-black: #0a0a0a;
+  --color-charcoal: #1f1f2e;
+  --color-steel: #2c3e50;
+  --color-white: #ffffff;
+
+  /* Primary */
+  --color-blue-electric: #3498db;
+  --color-blue-deep: #1b4f72;
+
+  /* Secondary */
+  --color-cyan-magic: #00ffff;
+  --color-gray-mist: #bdc3c7;
+
+  /* Accent */
+  --color-gold-soft: #f39c12;
+  --color-lavender-shine: #9b59b6;
+}
