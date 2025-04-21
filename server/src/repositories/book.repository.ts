@@ -50,6 +50,7 @@ export async function getBookWithReviewsAndCommentsById(bookId: string): Promise
       bookCreatedAt: books.createdAt,
       bookUpdatedAt: books.updatedAt,
       reviewId: reviews.id,
+      reviewUserId: reviews.userId,
       reviewContent: reviews.content,
       reviewRating: reviews.rating,
       reviewCreatedAt: reviews.createdAt,
@@ -87,6 +88,7 @@ export async function getBookWithReviewsAndCommentsById(bookId: string): Promise
     if (!reviewMap.has(row.reviewId)) {
       const newReview: FetchReview & { reviewComments: FetchReviewComment[] } = {
         id: row.reviewId,
+        userId: row.reviewUserId!,
         content: row.reviewContent!,
         rating: row.reviewRating!,
         createdAt: row.reviewCreatedAt!,
@@ -102,6 +104,7 @@ export async function getBookWithReviewsAndCommentsById(bookId: string): Promise
     if (row.reviewCommentId) {
       reviewMap.get(row.reviewId)!.reviewComments.push({
         id: row.reviewCommentId,
+        userId: row.reviewUserId!,
         content: row.reviewCommentContent!,
         username: row.reviewCommentUsername!,
         createdAt: row.reviewCommentCreatedAt!,

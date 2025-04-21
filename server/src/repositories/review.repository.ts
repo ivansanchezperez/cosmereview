@@ -53,6 +53,7 @@ export async function getReviewsWithCommentsById(reviewId: string): Promise<Revi
     .select({
       reviewId: reviews.id,
       reviewBookId: reviews.bookId,
+      reivewUserId: reviews.userId,
       reviewContent: reviews.content,
       reviewRating: reviews.rating,
       reviewCreatedAt: reviews.createdAt,
@@ -78,6 +79,7 @@ export async function getReviewsWithCommentsById(reviewId: string): Promise<Revi
       reviewMap.set(row.reviewId, {
         id: row.reviewId!,
         bookId: row.reviewBookId!,
+        userId: row.reivewUserId!,
         username: row.reviewUsername!,
         content: row.reviewContent!,
         rating: row.reviewRating!,
@@ -90,6 +92,7 @@ export async function getReviewsWithCommentsById(reviewId: string): Promise<Revi
     if (row.reviewCommentId) {
       const comment: FetchReviewComment = {
         id: row.reviewCommentId!,
+        userId: row.reivewUserId!,
         content: row.reviewCommentContent!,
         username: row.reviewCommentUsername!,
         createdAt: row.reviewCommentCreatedAt!,
