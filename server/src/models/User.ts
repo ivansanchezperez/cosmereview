@@ -13,6 +13,4 @@ export const users = pgTable("users", {
 
 export type CreateUser = InferInsertModel<typeof users>;
 export type FetchUser = InferSelectModel<typeof users>;
-export type PatchUser = Partial<Omit<InferInsertModel<typeof users>, "id" | "createdAt">> & {
-  id: number;
-};
+export type PatchUser = Partial<Omit<InferInsertModel<typeof users>, "id" | "createdAt">>;

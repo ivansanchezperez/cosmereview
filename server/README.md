@@ -37,3 +37,4 @@ Supabase: https://supabase.com/dashboard/project/tbptoqmpxzhbnajchgho
 - Think were do we deploy this
 - Maybe a metrics module?
 - Auth system implementation, do we need email support?
+- How can I introduce a good documetation for the API
