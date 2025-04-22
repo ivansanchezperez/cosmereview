@@ -1,7 +1,7 @@
 import "@fontsource/noto-serif";
 import { useState, useEffect, useRef } from "react";
-import { motion, useMotionValue } from "framer-motion";
-import elantris from "../../assets/elantris.png";
+import { motion } from "framer-motion";
+import elantrisCover from "../../assets/elantris-cover.png";
 import homepage from "../../assets/homepage.png";
 import styles from "./welcome.module.css";
 
@@ -56,67 +56,75 @@ export default function Welcome() {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  const sidebarWidth = isSidebarOpen ? "20%" : windowWidth < 768 ? "0" : "0";
-  const sidebarTransform = !isSidebarOpen
-    ? "translateX(-100%)"
-    : "translateX(0)";
-  const mainMarginLeft = isSidebarOpen ? "20%" : "0";
-
-  const positionValue = "fixed";
-  const overflowYValue = "auto";
-  const sidebarOverflowYValue = "auto";
+  // Fixed width values - use exact pixel values for more precise control
+  const sidebarWidth = isSidebarOpen ? "250px" : "60px";
+  const mainMarginLeft = isSidebarOpen ? "250px" : "60px";
 
   return (
     <div className={styles.container}>
       <motion.div
         ref={sidebarRef}
-        className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}
+        className={`${styles.sidebar} ${
+          isSidebarOpen ? styles.open : styles.collapsed
+        }`}
         style={{
           width: sidebarWidth,
-          transform: sidebarTransform,
-          position: positionValue,
-          overflowY: sidebarOverflowYValue,
         }}
-        initial={{ width: windowWidth < 768 ? 0 : "20%" }}
+        initial={false}
         animate={{
           width: sidebarWidth,
-          x: !isSidebarOpen ? "-100%" : 0,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <div className={styles.sidebarInner}>
-          <nav className={styles.nav}>
-            <ul className={styles.navList}>
-              <li className={styles.navItem}>Home</li>
-              <li className={styles.navItem}>Elantris</li>
-              <li className={styles.navItem}>Mistborn</li>
-            </ul>
-          </nav>
-        </div>
+        <nav className={styles.nav}>
+          <ul className={styles.navList}>
+            <li className={styles.navItem}>
+              <div className={styles.navItemContent} onClick={toggleSidebar}>
+                <span className={styles.navIcon}>
+                  {isSidebarOpen ? "⟩" : "⟨"}
+                </span>
+                {isSidebarOpen && (
+                  <span className={styles.navText}>Librería</span>
+                )}
+              </div>
+            </li>
+            <li className={styles.navItem}>
+              <div className={styles.navItemContent}>
+                <span className={styles.navIcon}>🏠</span>
+                {isSidebarOpen && <span className={styles.navText}>Home</span>}
+              </div>
+            </li>
+            <li className={styles.navItem}>
+              <div className={styles.navItemContent}>
+                <span className={styles.navIcon}>📖</span>
+                {isSidebarOpen && (
+                  <span className={styles.navText}>Elantris</span>
+                )}
+              </div>
+            </li>
+            <li className={styles.navItem}>
+              <div className={styles.navItemContent}>
+                <span className={styles.navIcon}>📚</span>
+                {isSidebarOpen && (
+                  <span className={styles.navText}>Mistborn</span>
+                )}
+              </div>
+            </li>
+          </ul>
+        </nav>
       </motion.div>
 
       <motion.main
         className={styles.main}
         style={{
-          marginLeft: mainMarginLeft,
-          overflowY: overflowYValue,
+          width: `calc(100% - ${mainMarginLeft})`,
+          transition: "margin-left 0.3s ease, width 0.3s ease",
         }}
         animate={{
-          marginLeft: mainMarginLeft,
+          width: `calc(100% - ${mainMarginLeft})`,
         }}
         transition={{ duration: 0.3 }}
       >
-        <header className={styles.header}>
-          <button
-            ref={toggleButtonRef}
-            onClick={toggleSidebar}
-            className={styles.headerToggleButton}
-            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
-          >
-            {isSidebarOpen ? "✕" : "☰"}
-          </button>
-        </header>
-
         <div
           className={styles.hero}
           style={{ backgroundImage: `url(${homepage.src})` }}
@@ -132,9 +140,10 @@ export default function Welcome() {
             <div className={styles.bookItem}>
               <div
                 className={styles.bookCover}
-                style={{ backgroundImage: `url(${elantris.src})` }}
-              ></div>
+                style={{ backgroundImage: `url(${elantrisCover.src})` }}
+              />
               <span className={styles.bookTitle}>Elantris</span>
+              <span className={styles.bookAuthor}>La ciudad de los dioses</span>
             </div>
           </div>
         </section>
