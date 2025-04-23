@@ -1,4 +1,3 @@
-import { profile } from "bun:jsc";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -6,8 +5,6 @@ export const userSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
   profilePicture: z.string().optional(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
 });
 
 export const userPatchSchema = userSchema

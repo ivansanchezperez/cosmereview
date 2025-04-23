@@ -49,7 +49,7 @@ export async function createUserController(c: Context) {
   }
 }
 
-export async function patchUserController(c: Context) {
+export async function patchUserByIdController(c: Context) {
   try {
     const userId = c.req.param("id");
     const body = await c.req.json();
