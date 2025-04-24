@@ -1,13 +1,16 @@
 import { CreateUser, PatchUser } from "../models";
 import * as userRepository from "../repositories/user.repository";
+import * as authService from "./auth.service";
 
 export async function getUserById(id: string) {
   return userRepository.getUserById(id);
 }
 
 export async function createUser(user: CreateUser) {
+  const hashedPassword = await authService.hashPassword(user.password);
   const userToCreate = {
     ...user,
+    password: hashedPassword,
     createdAt: new Date(),
   };
   return userRepository.createUser(userToCreate);

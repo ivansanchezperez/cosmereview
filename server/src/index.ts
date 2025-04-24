@@ -5,6 +5,7 @@ import { reviewRoutes } from "./routes/review.router";
 import { bookRoutes } from "./routes/book.router";
 import { reviewCommentRoutes } from "./routes/review-comment.router";
 import { userRoutes } from "./routes/user.router";
+import { authRoutes } from "./routes/auth.router";
 
 const app = new Hono();
 
@@ -36,6 +37,7 @@ app.route("/books", bookRoutes);
 app.route("/reviews", reviewRoutes);
 app.route("/review-comments", reviewCommentRoutes);
 app.route("/users", userRoutes);
+app.route("/auth", authRoutes);
 
 export default {
   port: 3000,
