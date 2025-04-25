@@ -6,6 +6,7 @@ import { bookRoutes } from "./routes/book.router";
 import { reviewCommentRoutes } from "./routes/review-comment.router";
 import { userRoutes } from "./routes/user.router";
 import { authRoutes } from "./routes/auth.router";
+import { authMiddleware } from "./middlewares/auth.middleware";
 
 const app = new Hono();
 
@@ -31,6 +32,7 @@ app.onError((err, c) => {
 
 // Middlewares
 app.use(logger());
+app.use(authMiddleware);
 
 // Registering routes
 app.route("/books", bookRoutes);

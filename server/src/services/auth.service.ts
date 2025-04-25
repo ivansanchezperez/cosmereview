@@ -13,12 +13,13 @@ const secret = encoder.encode(SECRET_KEY);
  */
 export async function generateToken(user: FetchUser): Promise<string> {
   const payload = {
-    id: user.id,
+    sub: user.id.toString(),
     username: user.username,
     email: user.email,
+    iss: "cosmereview-api",
   };
 
-  return new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setExpirationTime("1h").sign(secret);
+  return new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime("1h").sign(secret);
 }
 
 /**
