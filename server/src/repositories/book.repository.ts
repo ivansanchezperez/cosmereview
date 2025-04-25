@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db";
 import { books, reviews, reviewComments, CreateBook, PatchBook, BookWithReviewsAndComments, FetchReview, FetchReviewComment } from "../models";
+import { EntityNotFound } from "../common/errors";
 
 // CRUD operations for books
 export async function getAllBooks() {
@@ -68,6 +69,10 @@ export async function getBookWithReviewsAndCommentsById(bookId: string): Promise
     .leftJoin(reviews, eq(books.id, reviews.bookId))
     .leftJoin(reviewComments, eq(reviews.id, reviewComments.reviewId))
     .where(eq(books.id, Number(bookId)));
+
+  if (result.length === 0) {
+    throw new EntityNotFound(`Book with id ${bookId} not found`);
+  }
 
   // Transform the flat result into a hierarchical structure
   const book: BookWithReviewsAndComments = {

@@ -32,14 +32,14 @@ app.onError((err, c) => {
 
 // Middlewares
 app.use(logger());
-app.use(authMiddleware);
 
 // Registering routes
+app.route("/auth", authRoutes);
+app.use(authMiddleware);
 app.route("/books", bookRoutes);
 app.route("/reviews", reviewRoutes);
 app.route("/review-comments", reviewCommentRoutes);
 app.route("/users", userRoutes);
-app.route("/auth", authRoutes);
 
 export default {
   port: 3000,
