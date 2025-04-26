@@ -1,7 +1,9 @@
 import { Context } from "hono";
 import { logger } from "../common/logger";
 import { EntityNotFound, BadRequest } from "../common/errors";
+import { bookSchema } from "../schemas/book.schema";
 import * as bookService from "../services/book.service";
+import * as storageService from "../services/storage.service";
 
 export async function getBooksController(c: Context) {
   try {
@@ -39,23 +41,41 @@ export async function getBookByIdController(c: Context) {
 export async function createBookController(c: Context) {
   try {
     logger.info("Creating a new book");
-    const { title, author, publishedYear } = await c.req.json();
 
-    if (!title || !author || !publishedYear) {
-      throw new BadRequest("Missing required fields");
-    }
+    const formData = await c.req.formData();
+    const title = formData.get("title") as string;
+    const author = formData.get("author") as string;
+    const publishedYear = Number(formData.get("publishedYear"));
+    const image = formData.get("image");
 
-    const book = await bookService.createBook({
+    const { success, data, error } = bookSchema.safeParse({
       title,
       author,
       publishedYear,
+      image,
     });
+
+    if (!success) {
+      logger.error("Validation error", error);
+      return c.json({ error: "Invalid input" }, 400);
+    }
+
+    if (image && image instanceof File) {
+      const filename = `book_images/${image.name}`;
+      const publicUrl = await storageService.uploadImage(image, filename);
+      data.image = publicUrl;
+    }
+
+    const book = await bookService.createBook(data);
 
     logger.info("Created book successfully");
     return c.json(book, 201);
   } catch (error) {
     logger.error("Error creating book", error);
     if (error instanceof BadRequest) {
+      return c.json({ error: error.message }, 400);
+    }
+    if (error instanceof Error) {
       return c.json({ error: error.message }, 400);
     }
     return c.json({ error: "Internal Server Error" }, 500);

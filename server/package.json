@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.17",
+    "@supabase/supabase-js": "^2.49.4",
     "dotenv": "^16.5.0",
     "drizzle-orm": "latest",
     "hono": "^4.7.7",
