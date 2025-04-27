@@ -30,9 +30,6 @@ Supabase: https://supabase.com/dashboard/project/tbptoqmpxzhbnajchgho
 
 ### TODO
 
-- Add user entity
-- Authentication middlware
-- Handle images on books, ideas
 - Do I need CI and tests?
 - Think were do we deploy this
 - Maybe a metrics module?

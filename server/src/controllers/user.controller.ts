@@ -1,8 +1,9 @@
 import { Context } from "hono";
 import { logger } from "../common/logger";
 import { EntityNotFound } from "../common/errors";
-import * as userService from "../services/user.service";
 import { userPatchSchema, userSchema } from "../schemas/user.schema";
+import * as userService from "../services/user.service";
+import * as storageService from "../services/storage.service";
 
 export async function getUserByIdController(c: Context) {
   try {
@@ -22,19 +23,29 @@ export async function getUserByIdController(c: Context) {
 
 export async function createUserController(c: Context) {
   try {
-    const { username, email, password, profilePicture } = await c.req.json();
+    const formData = await c.req.formData();
+    const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const image = formData.get("image");
     logger.info("Creating user");
 
     const { success, data, error } = userSchema.safeParse({
       username,
       email,
       password,
-      profilePicture,
+      image,
     });
 
     if (!success) {
       logger.error("Validation error", error);
       return c.json({ error: error.errors }, 400);
+    }
+
+    if (image && image instanceof File) {
+      const filename = `user_images/${image.name}`;
+      const publicUrl = await storageService.uploadImage(image, filename);
+      data.image = publicUrl;
     }
 
     const user = await userService.createUser(data);
