@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { FetchUser } from "../models/User";
 import * as userRepository from "../repositories/user.repository";
+import * as emailService from "./email.service";
 
 const SECRET_KEY = process.env.JWT_SECRET || "your_jwt_secret_key";
 const encoder = new TextEncoder();
@@ -37,6 +38,18 @@ export async function verifyToken(token: string): Promise<FetchUser | null> {
 }
 
 /**
+ * Register a new user by hashing the password and saving to the database.
+ * @param password - The raw user password to hash.
+ * @returns The hashed password string.
+ */
+export async function hashPassword(password: string) {
+  return Bun.password.hash(password, {
+    algorithm: "bcrypt",
+    cost: 4,
+  });
+}
+
+/**
  * Login a user by verifying email and password.
  * @param email - The user's email.
  * @param password - The user's password.
@@ -56,14 +69,6 @@ export async function login(email: string, password: string): Promise<string> {
   return await generateToken(user);
 }
 
-/**
- * Register a new user by hashing the password and saving to the database.
- * @param password - The raw user password to hash.
- * @returns The hashed password string.
- */
-export async function hashPassword(password: string) {
-  return Bun.password.hash(password, {
-    algorithm: "bcrypt",
-    cost: 4,
-  });
+export async function register(email: string, password: string) {
+  await emailService.sendRegistrationEmail(email);
 }

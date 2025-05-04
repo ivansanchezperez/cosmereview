@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "../config/db";
+import { db } from "../config/supabase_db";
 import { reviews, CreateReview, PatchReview, ReviewWithComments, reviewComments, FetchReviewComment } from "../models";
 
 // CRUD operations for reviews

@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "../config/db";
+import { db } from "../config/supabase_db";
 import { users, CreateUser, PatchUser, FetchUser } from "../models";
 
 export async function getUserById(id: string) {

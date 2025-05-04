@@ -1,5 +1,5 @@
 import { logger } from "../common/logger";
-import { supabase } from "../config/storage";
+import { supabase } from "../config/supabase_storage";
 
 const BUCKET_NAME = "images";
 

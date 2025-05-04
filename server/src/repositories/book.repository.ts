@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "../config/db";
+import { db } from "../config/supabase_db";
 import { books, reviews, reviewComments, CreateBook, PatchBook, BookWithReviewsAndComments, FetchReview, FetchReviewComment } from "../models";
 import { EntityNotFound } from "../common/errors";
 
