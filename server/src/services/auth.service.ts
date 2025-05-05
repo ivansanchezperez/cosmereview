@@ -1,7 +1,11 @@
+import { logger } from "../common/logger";
 import { SignJWT, jwtVerify } from "jose";
-import { FetchUser } from "../models/User";
+import { CreateUser, FetchUser } from "../models/User";
 import * as userRepository from "../repositories/user.repository";
 import * as emailService from "./email.service";
+import * as storageService from "../services/storage.service";
+import * as userService from "../services/user.service";
+import { EmailIntegrationError } from "../common/errors";
 
 const SECRET_KEY = process.env.JWT_SECRET || "your_jwt_secret_key";
 const encoder = new TextEncoder();
@@ -69,6 +73,20 @@ export async function login(email: string, password: string): Promise<string> {
   return await generateToken(user);
 }
 
-export async function register(email: string, password: string) {
-  await emailService.sendRegistrationEmail(email);
+/**
+ * Register a new user by creating a new user in the database and sending a registration email.
+ * @param data - The user data to register.
+ */
+export async function register(userToCreate: CreateUser, image?: File) {
+  if (image && image instanceof File) {
+    const filename = `user_images/${image.name}`;
+    const publicUrl = await storageService.uploadImage(image, filename);
+    userToCreate.image = publicUrl;
+  }
+  await userService.createUser(userToCreate);
+  const { data, error } = await emailService.sendRegistrationEmail(userToCreate.email);
+  if (error) {
+    throw new EmailIntegrationError(error.message);
+  }
+  return data;
 }
