@@ -1,9 +1,9 @@
 import { Context } from "hono";
 import { logger } from "../common/logger";
-import { EntityNotFound } from "../common/errors";
 import { userPatchSchema, userSchema } from "../schemas/user.schema";
 import * as userService from "../services/user.service";
 import * as storageService from "../services/storage.service";
+import { EntityNotFoundError } from "../common/errors";
 
 export async function getUserByIdController(c: Context) {
   try {
@@ -14,7 +14,7 @@ export async function getUserByIdController(c: Context) {
     return c.json(user, 200);
   } catch (error) {
     logger.error("Error getting user", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -53,7 +53,7 @@ export async function createUserController(c: Context) {
     return c.json(user, 201);
   } catch (error) {
     logger.error("Error creating user", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -81,7 +81,7 @@ export async function patchUserByIdController(c: Context) {
     return c.json(user, 200);
   } catch (error) {
     logger.error("Error patching user", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -99,7 +99,7 @@ export async function deleteUserByIdController(c: Context) {
     return c.json({ message: "User deleted successfully" }, 200);
   } catch (error) {
     logger.error("Error deleting user", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);

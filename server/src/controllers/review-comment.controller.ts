@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { logger } from "../common/logger";
-import { EntityNotFound } from "../common/errors";
+import { EntityNotFoundError } from "../common/errors";
 import { reviewCommentPatchSchema, reviewCommentSchema } from "../schemas/review-comment.schema";
 import * as reviewCommentService from "../services/review-comment.service";
 
@@ -10,14 +10,14 @@ export async function getReviewCommentsByReviewIdController(c: Context) {
     logger.info(`Fetching review comment by id ${reviewId}`);
 
     if (!reviewId) {
-      throw new EntityNotFound("Review comment ID is required");
+      throw new EntityNotFoundError("Review comment ID is required");
     }
 
     const reviewComments = await reviewCommentService.getReviewCommentById(reviewId);
     logger.info("Fetched review comment successfully");
     return c.json(reviewComments, 200);
   } catch (error) {
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -40,7 +40,7 @@ export async function createReviewCommentController(c: Context) {
     logger.info("Created review comment successfully");
     return c.json(reviewComment, 201);
   } catch (error) {
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -65,7 +65,7 @@ export async function patchReviewCommentByIdController(c: Context) {
     logger.info("Patched review comment successfully");
     return c.json(updatedReviewComment, 200);
   } catch (error) {
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -80,7 +80,7 @@ export async function deleteReviewCommentByIdController(c: Context) {
     logger.info("Deleted review comment successfully");
     return c.json({ message: "Review comment deleted successfully" }, 200);
   } catch (error) {
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);

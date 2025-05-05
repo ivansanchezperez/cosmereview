@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/supabase_db";
 import { books, reviews, reviewComments, CreateBook, PatchBook, BookWithReviewsAndComments, FetchReview, FetchReviewComment } from "../models";
-import { EntityNotFound } from "../common/errors";
+import { EntityNotFoundError } from "../common/errors";
 
 // CRUD operations for books
 export async function getAllBooks() {
@@ -72,7 +72,7 @@ export async function getBookWithReviewsAndCommentsById(bookId: string): Promise
     .where(eq(books.id, Number(bookId)));
 
   if (result.length === 0) {
-    throw new EntityNotFound(`Book with id ${bookId} not found`);
+    throw new EntityNotFoundError(`Book with id ${bookId} not found`);
   }
 
   // Transform the flat result into a hierarchical structure

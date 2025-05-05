@@ -1,7 +1,7 @@
 import { pgTable, serial, integer, text, timestamp } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { reviews } from "./Review";
 import { books } from "./Book";
+import { reviews } from "./Review";
 
 export const reviewComments = pgTable("review_comments", {
   id: serial("id").primaryKey(),

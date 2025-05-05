@@ -1,10 +1,10 @@
 import { resend } from "../config/resend";
 
 export async function sendRegistrationEmail(email: string) {
-  const { data, error } = await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: "pau.garcia.valero@gmail.com",
-    subject: "Hello World",
-    html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
+  return await resend.emails.send({
+    from: "cosmereview@resend.dev",
+    to: email,
+    subject: "Welcome to Cosmereview",
+    html: "<p>Hola guapa, welcome to cosmereview</p>",
   });
 }

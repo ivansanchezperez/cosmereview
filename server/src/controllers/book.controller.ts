@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { logger } from "../common/logger";
-import { EntityNotFound, BadRequest } from "../common/errors";
+import { EntityNotFoundError, BadRequestError } from "../common/errors";
 import { bookSchema } from "../schemas/book.schema";
 import * as bookService from "../services/book.service";
 import * as storageService from "../services/storage.service";
@@ -23,7 +23,7 @@ export async function getBookByIdController(c: Context) {
     logger.info(`Fetching book by id ${bookId}`);
 
     if (!bookId) {
-      throw new BadRequest("Book ID is required");
+      throw new BadRequestError("Book ID is required");
     }
 
     const book = await bookService.getBookById(bookId);
@@ -31,7 +31,7 @@ export async function getBookByIdController(c: Context) {
     return c.json(book, 200);
   } catch (error) {
     logger.error("Error creating book", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -72,7 +72,7 @@ export async function createBookController(c: Context) {
     return c.json(book, 201);
   } catch (error) {
     logger.error("Error creating book", error);
-    if (error instanceof BadRequest) {
+    if (error instanceof BadRequestError) {
       return c.json({ error: error.message }, 400);
     }
     if (error instanceof Error) {
@@ -94,7 +94,7 @@ export async function patchBookByIdController(c: Context) {
     return c.json(book, 200);
   } catch (error) {
     logger.error("Error creating book", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     console.log(error);
@@ -108,7 +108,7 @@ export async function deleteBookByIdController(c: Context) {
     logger.info(`Deleting book by id ${bookId}`);
 
     if (!bookId) {
-      throw new BadRequest("Book ID is required");
+      throw new BadRequestError("Book ID is required");
     }
 
     await bookService.deleteBookById(bookId);
@@ -116,7 +116,7 @@ export async function deleteBookByIdController(c: Context) {
     return c.json({ message: "Book deleted successfully" }, 200);
   } catch (error) {
     logger.error("Error creating book", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);

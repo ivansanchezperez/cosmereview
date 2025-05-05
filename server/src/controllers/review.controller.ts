@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { logger } from "../common/logger";
-import { EntityNotFound } from "../common/errors";
+import { EntityNotFoundError } from "../common/errors";
 import { reviewPatchSchema, reviewSchema } from "../schemas/review.schema";
 import * as reviewService from "../services/review.service";
 
@@ -21,14 +21,14 @@ export async function getReviewByIdController(c: Context) {
     const reviewId = c.req.param("id");
     logger.info(`Fetching review by id ${reviewId}`);
     if (!reviewId) {
-      throw new EntityNotFound("Review ID is required");
+      throw new EntityNotFoundError("Review ID is required");
     }
     const review = await reviewService.getReviewAndCommentsById(reviewId);
     logger.info("Fetched review successfully");
     return c.json(review, 200);
   } catch (error) {
     logger.error("Error fetching review", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -57,7 +57,7 @@ export async function createReviewController(c: Context) {
     return c.json(review, 201);
   } catch (error) {
     logger.error("Error creating review", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 400);
     }
     return c.json({ error: "Internal Server Error" }, 500);
@@ -85,7 +85,7 @@ export async function patchReviewByIdController(c: Context) {
     return c.json(review, 200);
   } catch (error) {
     logger.error("Error creating review", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     console.log(error);
@@ -103,7 +103,7 @@ export async function deleteReviewByIdController(c: Context) {
     return c.json({ message: "Review deleted successfully" }, 200);
   } catch (error) {
     logger.error("Error deleting review", error);
-    if (error instanceof EntityNotFound) {
+    if (error instanceof EntityNotFoundError) {
       return c.json({ error: error.message }, 404);
     }
     return c.json({ error: "Internal Server Error" }, 500);

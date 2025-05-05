@@ -1,4 +1,4 @@
-import { EntityNotFound } from "../common/errors";
+import { EntityNotFoundError } from "../common/errors";
 import { CreateReview, FetchReview, PatchReview } from "../models";
 import { getBookById } from "./book.service";
 import { getReviewCommentsByReviewId } from "./review-comment.service";
@@ -15,7 +15,7 @@ export async function getReviewAndCommentsById(reviewId: string) {
 export async function getReviewById(id: string): Promise<FetchReview> {
   const review = await reviewRepository.getReviewById(id);
   if (!review || review.length === 0) {
-    throw new EntityNotFound(`Review with id ${id} not found`);
+    throw new EntityNotFoundError(`Review with id ${id} not found`);
   }
 
   const reivewComments = await getReviewCommentsByReviewId(id);

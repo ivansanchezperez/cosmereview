@@ -1,29 +1,47 @@
-export class EntityNotFound extends Error {
-  statusCode: number;
+class BaseError extends Error {
+  public statusCode: number;
 
-  constructor(entity: string) {
-    super(`${entity}`);
-    this.statusCode = 404;
-    this.name = "EntityNotFound";
-  }
-}
-
-export class Unauthorized extends Error {
-  statusCode: number;
-
-  constructor(message: string) {
+  constructor(message: string, statusCode: number) {
     super(message);
-    this.statusCode = 401;
-    this.name = "Unauthorized";
+    this.statusCode = statusCode;
+    this.name = this.constructor.name;
   }
 }
 
-export class BadRequest extends Error {
-  statusCode: number;
-
+class BadRequestError extends BaseError {
   constructor(message: string) {
-    super(message);
-    this.statusCode = 400;
-    this.name = "BadRequest";
+    super(message, 400);
   }
 }
+
+class EntityNotFoundError extends BaseError {
+  constructor(message: string) {
+    super(message, 404);
+  }
+}
+
+class ForbiddenError extends BaseError {
+  constructor(message: string) {
+    super(message, 403);
+  }
+}
+
+class ValidationError extends BaseError {
+  constructor(message: string) {
+    super(message, 400);
+  }
+}
+
+class IntegrationError extends BaseError {
+  constructor(message: string) {
+    super(message, 500);
+  }
+}
+
+class EmailIntegrationError extends BaseError {
+  constructor(message: string) {
+    super(message, 500);
+  }
+}
+
+export { BaseError, BadRequestError, EntityNotFoundError, ForbiddenError, ValidationError, IntegrationError, EmailIntegrationError };
