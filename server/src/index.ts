@@ -35,7 +35,11 @@ app.use(logger());
 
 // Registering routes
 app.route("/auth", authRoutes);
-app.use(authMiddleware);
+
+if (process.env.ENVIRONMENT !== "development") {
+  app.use(authMiddleware);
+}
+
 app.route("/books", bookRoutes);
 app.route("/reviews", reviewRoutes);
 app.route("/review-comments", reviewCommentRoutes);
