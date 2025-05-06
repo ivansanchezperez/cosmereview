@@ -1,5 +1,7 @@
+import "dotenv/config";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
+import { cors } from "hono/cors";
 import { BadRequestError } from "./common/errors";
 import { reviewRoutes } from "./routes/review.router";
 import { bookRoutes } from "./routes/book.router";
@@ -25,13 +27,22 @@ app.notFound((c) => {
 
 app.onError((err, c) => {
   if (err instanceof Error) {
-    return c.json({ error: err.message }, err instanceof BadRequestError ? 400 : 500);
+    return c.json(
+      { error: err.message },
+      err instanceof BadRequestError ? 400 : 500
+    );
   }
   return c.json({ error: "Unknown error occurred" }, 500);
 });
 
 // Middlewares
 app.use(logger());
+app.use(
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
 
 // Registering routes
 app.route("/auth", authRoutes);

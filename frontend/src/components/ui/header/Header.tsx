@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./Header.module.css";
-import userIcon from "../../assets/elantris.png";
-import logoIcon from "../../assets/elantris.png";
+import userIcon from "@assets/elantris.png";
+import logoIcon from "@assets/elantris.png";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

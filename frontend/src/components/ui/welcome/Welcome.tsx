@@ -1,9 +1,9 @@
 import "@fontsource/noto-serif";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import elantrisCover from "../../assets/elantris-cover.png";
-import homepage from "../../assets/homepage.png";
+import homepage from "@assets/homepage.png";
 import styles from "./welcome.module.css";
+import BookList from "@ui/book-list/BookList";
 
 export default function Welcome() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -134,19 +134,7 @@ export default function Welcome() {
           </div>
         </div>
 
-        <section className={styles.reviewsSection}>
-          <h2 className={styles.sectionTitle}>Libros destacados</h2>
-          <div className={styles.booksGrid}>
-            <div className={styles.bookItem}>
-              <div
-                className={styles.bookCover}
-                style={{ backgroundImage: `url(${elantrisCover.src})` }}
-              />
-              <span className={styles.bookTitle}>Elantris</span>
-              <span className={styles.bookAuthor}>La ciudad de los dioses</span>
-            </div>
-          </div>
-        </section>
+        <BookList />
       </motion.main>
     </div>
   );

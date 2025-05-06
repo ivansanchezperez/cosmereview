@@ -1,0 +1,40 @@
+.reviewsSection {
+  padding: 1rem 0;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.booksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.bookItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.bookCover {
+  width: 200px;
+  height: 300px;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 0.5rem;
+}
+
+.bookTitle {
+  font-size: 1.3rem;
+}
+
+.bookAuthor {
+  font-size: 0.8rem;
+  color: var(--color-gray);
+}

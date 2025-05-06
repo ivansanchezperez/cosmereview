@@ -24,7 +24,11 @@ export async function generateToken(user: FetchUser): Promise<string> {
     iss: "cosmereview-api",
   };
 
-  return new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime("1h").sign(secret);
+  return new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("1h")
+    .sign(secret);
 }
 
 /**
@@ -84,7 +88,10 @@ export async function register(userToCreate: CreateUser, image?: File) {
     userToCreate.image = publicUrl;
   }
   await userService.createUser(userToCreate);
-  const { data, error } = await emailService.sendRegistrationEmail(userToCreate.email);
+  const { data, error } = await emailService.sendRegistrationEmail(
+    userToCreate.email
+  );
+
   if (error) {
     throw new EmailIntegrationError(error.message);
   }

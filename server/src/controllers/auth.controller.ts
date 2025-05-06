@@ -6,6 +6,7 @@ import * as authService from "../services/auth.service";
 export async function loginController(c: Context) {
   try {
     const { email, password } = await c.req.json();
+
     if (!email || !password) {
       return c.json({ error: "Email and password are required" }, 400);
     }

@@ -35,6 +35,10 @@ export async function deleteUserById(id: string) {
 }
 
 export async function getUserByEmail(email: string): Promise<FetchUser | null> {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).execute();
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .execute();
   return user || null; // Return the user or null if not found
 }
