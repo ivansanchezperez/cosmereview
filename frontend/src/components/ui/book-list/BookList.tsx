@@ -32,8 +32,6 @@ export default function BookList() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  console.log(books);
-
   return (
     <section className={styles.reviewsSection}>
       <h2 className={styles.sectionTitle}>Libros destacados</h2>
@@ -44,8 +42,13 @@ export default function BookList() {
               className={styles.bookCover}
               style={{ backgroundImage: `url(${book.image})` }}
             />
-            <span className={styles.bookTitle}>{book.title}</span>
-            <span className={styles.bookAuthor}>{book.author}</span>
+            <div className={styles.bookContent}>
+              <div className={styles.bookInfo}>
+                <span className={styles.bookTitle}>{book.title}</span>
+                <span className={styles.bookAuthor}>{book.author}</span>
+              </div>
+              <button className={styles.seeMoreButton}>Ver más</button>
+            </div>
           </div>
         ))}
       </div>

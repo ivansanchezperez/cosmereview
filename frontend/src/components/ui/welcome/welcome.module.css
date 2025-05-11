@@ -176,4 +176,8 @@
   .open + .main {
     margin-left: 0 !important;
   }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
 }

@@ -4,32 +4,21 @@ import { motion } from "framer-motion";
 import homepage from "@assets/homepage.png";
 import styles from "./welcome.module.css";
 import BookList from "@ui/book-list/BookList";
+import useWindowResize from "@hooks/useWindowResize";
 
 export default function Welcome() {
+  const { windowWidth } = useWindowResize();
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 0
-  );
   const sidebarRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      if (window.innerWidth < 768) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    } else {
+      setSidebarOpen(true);
+    }
+  }, [windowWidth]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {

@@ -10,8 +10,10 @@
 
 .booksGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
+  justify-items: center;
+  justify-content: center;
 }
 
 .bookItem {
@@ -19,22 +21,62 @@
   flex-direction: column;
   gap: 10px;
   align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: var(--color-white);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.bookContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bookInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .bookCover {
-  width: 200px;
-  height: 300px;
+  width: inherit;
+  height: 250px;
   border-radius: 5px;
   background-size: cover;
   background-position: center;
-  margin-bottom: 0.5rem;
 }
 
 .bookTitle {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .bookAuthor {
-  font-size: 0.8rem;
-  color: var(--color-gray);
+  font-size: 0.7rem;
+  color: var(--color-gray-mist);
+}
+
+.seeMoreButton {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--color-steel);
+  color: var(--color-white);
+  font-weight: 600;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: var(--color-blue-deep);
+  }
 }

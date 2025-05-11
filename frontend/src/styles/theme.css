@@ -17,4 +17,8 @@
   /* Accent */
   --color-gold-soft: #f39c12;
   --color-lavender-shine: #9b59b6;
+
+  /* Background */
+  --color-background-light: #e7ecf5;
+  --color-background-dark: #1f1f2e;
 }

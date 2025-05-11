@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import styles from "./Header.module.css";
 import userIcon from "@assets/elantris.png";
 import logoIcon from "@assets/elantris.png";
+import useWindowResize from "@hooks/useWindowResize";
 
 export default function Header() {
+  const { windowWidth } = useWindowResize();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -14,6 +16,8 @@ export default function Header() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isMobile = windowWidth < 768;
 
   return (
     <motion.header
@@ -38,7 +42,7 @@ export default function Header() {
     >
       <div className={styles.left}>
         <img src={logoIcon.src} alt="logo" className={styles.logo} />
-        <span className={styles.title}>Cosmereview</span>
+        {!isMobile && <span className={styles.title}>Cosmereview</span>}
       </div>
       <div className={styles.right}>
         <button className={styles.loginButton}>Iniciar sesión</button>
